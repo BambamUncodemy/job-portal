@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
+import JobCard from './components/JobCard';
+
 function App() {
   const [searchParams, setSearchParams] = useState ({query: ' Software Developer', location: ''});
   const [job, setJob] = useState([]);
@@ -9,14 +11,16 @@ function App() {
     const fetchJobs = async () => {
       try {
         const response = await axios.get('http://localhost:3002/api/jobs', {
+            params: {query: searchParams.query, location: searchParams.location}
         });
        
+        setJob(response.data.data || []); 
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }
     };
-   
-  },);
+   fetchJobs()
+  }, [searchParams]);
 
   
  const handleSearch = (params) => {
@@ -37,10 +41,9 @@ function App() {
           <SearchBar onSearch = {handleSearch} setQuickSearch={setQuickSearch}/>
           <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Search Results</h2>
           <p> {job.length} jobs found</p>
-
+          <JobCard />
 </main>
     </>
   );
 }
-
 export default App;
