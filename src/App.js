@@ -41,7 +41,14 @@ function App() {
           <SearchBar onSearch = {handleSearch} setQuickSearch={setQuickSearch}/>
           <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Search Results</h2>
           <p> {job.length} jobs found</p>
-          <JobCard />
+
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+{job.map((job, index) =>(
+
+  <JobCard key={index} job={job}/>
+) )}
+          </div>
+       
 </main>
     </>
   );
